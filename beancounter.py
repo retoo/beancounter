@@ -23,6 +23,7 @@ from __future__ import with_statement
 import rrdtool
 import re
 import os
+import sys
 import logging as log
 
 log.basicConfig(level=log.DEBUG)
@@ -31,7 +32,7 @@ BEAN_FILE = "/proc/user_beancounters"
 BEAN_VERSION = "2.5"
 
 NUMERIC_LINE = re.compile("^\d+:$")
-DB_PATH = "tmp"
+DB_PATH = sys.argv[1]
 
 def read_bean_file(filename):
   with open(BEAN_FILE) as fh:
