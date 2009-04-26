@@ -31,28 +31,37 @@ BEAN_VERSION = "2.5"
 
 NUMERIC_LINE = re.compile("^\d+:$")
 
-with open(BEAN_FILE) as fh:
-  for line in fh:
-    parts = line.split()
+def read_bean_file(filename):
+  with open(BEAN_FILE) as fh:
+    for line in fh:
+      parts = line.split()
 
-    if parts[0] == "Version:":
-      # Version: 2.5
-      version = parts[1]
+      if parts[0] == "Version:":
+        # Version: 2.5
+        version = parts[1]
 
-      if version != BEAN_VERSION:
-        log.critical("Unexpected bean version %s, script verified for %s, please " +
-                     "check for updates" % version, BEAN_VERSION)
-        sys.exit(1)
+        if version != BEAN_VERSION:
+          log.critical("Unexpected bean version %s, script verified for %s, please " +
+                       "check for updates" % version, BEAN_VERSION)
+          sys.exit(1)
 
-      continue
-    if parts[0] == "uid":
-      #  uid  resource                     held              maxheld              barrier                limit              failcnt
-      # skip column line
-      continue
-    if NUMERIC_LINE.match(parts[0]):
-      # 187099: kmemsize                 10191833             13450533             16934908             18628398                    0
-      # scrap first item in uid line
-      parts.pop(0)
+        continue
+      if parts[0] == "uid":
+        #  uid  resource                     held              maxheld              barrier                limit              failcnt
+        # skip column line
+        continue
+      if NUMERIC_LINE.match(parts[0]):
+        # 187099: kmemsize                 10191833             13450533             16934908             18628398                    0
+        # scrap first item in uid line
+        parts.pop(0)
 
-    print parts
-    resource, held, maxheld, barrier, limit, failcnt = parts
+      yield parts
+
+def main():
+  for record in read_bean_file(BEAN_VERSION):
+    resource, held, maxheld, barrier, limit, failcnt = record
+    print record
+
+
+if __name__ == "__main__":
+  main()
