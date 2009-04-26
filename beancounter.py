@@ -20,8 +20,6 @@
 
 from __future__ import with_statement
 
-import sys
-sys.path.append('/usr/local/rrdtool-1.3.7/lib/python2.5/site-packages/')
 import rrdtool
 
 import re
