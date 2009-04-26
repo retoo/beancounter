@@ -55,12 +55,15 @@ def read_bean_file(filename):
         # scrap first item in uid line
         parts.pop(0)
 
-      yield parts
+      name = parts[0]
+      values = map(int, parts[1:])
+      yield name, values
 
 def main():
   for record in read_bean_file(BEAN_VERSION):
-    resource, held, maxheld, barrier, limit, failcnt = record
     print record
+    resource, (held, maxheld, barrier, limit, failcnt) = record
+
 
 
 if __name__ == "__main__":
