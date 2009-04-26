@@ -1,0 +1,31 @@
+Beancounter
+
+Virtual servers hosted at servers4you.de are being restricted by several
+metrics. For example can the system only have a certain amount of open files.
+These limitations, the current value of a metric and its limit can be monitored
+using a file in /proc/user_beancounters
+
+The beancounter can be used to extract these values regulary and create rrdtool
+databases based on the statistics. 
+
+No grahs are being created, the script only creates and updates the .rrd files.
+Use another tool as a front end, the tool 'drraw' is recommended:
+
+  http://web.taranis.org/drraw/
+
+Homepage:
+  http://github.org/retoo/beancounter
+
+Prerequisites: 
+ - Python 2.5
+ - rrdtool including the python bindings
+    (use make site-python-install to install the bindings system-wide)
+
+Installation
+ - untar distribution / checkout source
+ - sudo python setup.py install
+
+Configuration:
+ install cronjob as root:
+ * * * * * /usr/local/bin/beancounter.py /path/to/db/folder/
+
