@@ -63,8 +63,7 @@ def read_bean_file(filename):
       if name == "dummy":
         continue
 
-      values = map(int, parts[1:])
-      yield name, values
+      yield name, parts[1:]
 
 def create_rrd_if_necessarry(db_path, name, fields):
   fields_string = "_".join(fields.keys())
@@ -118,6 +117,13 @@ def main():
           "limit": "GAUGE"
         })
 
+    data = (held, barrier, limit)
+    rrdtool.update(filename, "N:%s" % ":".join(data))
+
+    filename = create_rrd_if_necessarry(DB_PATH, name=ressource,
+        fields={"failcnt": "COUNTER" })
+
+    rrdtool.update(filename, "N:%s" % failcnt)
 
 if __name__ == "__main__":
   main()
