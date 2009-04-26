@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.6
+#!/usr/bin/python
 # -*- coding: utf8 -*-
 
 # Copyright (c) 2009 Reto Schüttel <reto -(a)- schuettel (o) ch>
@@ -22,7 +22,6 @@ from __future__ import with_statement
 
 import rrdtool
 import re
-import itertools
 import os
 import logging as log
 
@@ -97,8 +96,9 @@ def create_rrd_if_necessarry(db_path, name, fields):
   ]
 
   rras = []
-  for cf, time in itertools.product(cfs, times):
-    rras.append("RRA:%s:0.5:%s" % (cf, time))
+  for cf in cfs:
+    for time in times:
+      rras.append("RRA:%s:0.5:%s" % (cf, time))
 
   rrdtool.create(filename, *(dss + rras))
 
