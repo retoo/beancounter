@@ -27,7 +27,7 @@ import logging as log
 
 log.basicConfig(level=log.DEBUG)
 
-BEAN_FILE = "example_input"
+BEAN_FILE = "/proc/user_beancounters"
 BEAN_VERSION = "2.5"
 
 NUMERIC_LINE = re.compile("^\d+:$")
